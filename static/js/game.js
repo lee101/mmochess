@@ -524,7 +524,7 @@ var mmochess = new (function () {
 
             endSelf.nextTurn = function () {
                 gameState.players_turn = gameState.players_turn++ % level.num_players + 1;
-
+                //TODO you loose get captured logic
                 if (gameState.players_turn != 1) {
                     if (level.num_human_players < gameState.players_turn) {
                         if (level.computer_opponent) {
