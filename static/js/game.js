@@ -6,10 +6,10 @@ gameon.loadSound('moving', '/static/music/moving-letter.m4a');
 
 var mmochess = new (function () {
     "use strict";
-    var self = this;
+    var self = {};
 
     self.Game = function (level) {
-        var gameState = this;
+        var gameState = {};
 
         function construct() {
             gameon.pauseAll();
@@ -171,15 +171,15 @@ var mmochess = new (function () {
                     if (path) {
 
                         //shorter=faster
-                        var animationSpeed = 200;
+                        var animationTime = 200;
                         if (gameState.players_turn != 1 && level.computer_opponent) {
-                            animationSpeed = 200;
+                            animationTime = 200;
                         }
 //                        gameon.unmuteSound('moving');
 //                        gameon.playSound('moving');
 
                         //TODO start ai search ASAP
-                        gameState.board.animateTileAlongPath(gameState.currentSelected, path, animationSpeed, function () {
+                        gameState.board.animateTileAlongPath(gameState.currentSelected, path, animationTime, function () {
                             gameState.endHandler.turnEnd(gameState.currentSelected, self);
 //                            gameon.muteSound('moving');
 //                            gameon.pauseSound('moving');
@@ -865,6 +865,5 @@ var mmochess = new (function () {
         construct();
         return gameState;
     }
-
-
+    return self;
 })();
