@@ -18,6 +18,9 @@ window.evutils = new (function () {
             $(this).parent().hide();
         });
     });
+    self.showAds = function () {
+        $('.mm-hide-btn').parent().show();
+    };
     self.showModal = function () {
         $('#modal').modal('show');
     };

@@ -8,6 +8,15 @@ var mmochess = new (function () {
     "use strict";
     var self = {};
 
+    self.playerNumToColorName = {
+        1: 'white',
+        2: 'black',
+        3: 'blue',
+        4: 'red',
+        5: 'green',
+        6: 'aqua'
+    };
+
     self.Game = function (level) {
         var gameState = {};
 
@@ -26,9 +35,7 @@ var mmochess = new (function () {
 //                gameon.pauseSound("theme");
             };
 
-            if (level.computer_opponent) {
-                gameState.aiHandler = new gameState.AIHandler();
-            }
+            gameState.aiHandler = new gameState.AIHandler();
 
 
 //            gameon.renderVolumeTo($html.find('.mm-volume'));
@@ -172,9 +179,6 @@ var mmochess = new (function () {
 
                         //shorter=faster
                         var animationTime = 200;
-                        if (gameState.players_turn != 1 && level.computer_opponent) {
-                            animationTime = 200;
-                        }
 //                        gameon.unmuteSound('moving');
 //                        gameon.playSound('moving');
 
@@ -278,7 +282,7 @@ var mmochess = new (function () {
                     allowedMoves = [
                         [self.yPos + 1, self.xPos],
                         [self.yPos, self.xPos + 1],
-                        [self.yPos - 1, self.xPos ],
+                        [self.yPos - 1, self.xPos],
                         [self.yPos, self.xPos - 1],
                         [self.yPos + 1, self.xPos + 1],
                         [self.yPos - 1, self.xPos + 1],
@@ -290,7 +294,7 @@ var mmochess = new (function () {
                     var normalMoves = [
                         [self.yPos + 1, self.xPos],
                         [self.yPos, self.xPos + 1],
-                        [self.yPos - 1, self.xPos ],
+                        [self.yPos - 1, self.xPos],
                         [self.yPos, self.xPos - 1]
                     ];
                     if (self.timesMoved == 0) {
@@ -504,10 +508,16 @@ var mmochess = new (function () {
 
                 if (endTile.type == "king") {
                     //todo kingowned popup
+                    var conqueror = self.playerNumToColorName[startPlayerNum];
+                    var defeatedPlayer = self.playerNumToColorName[endPlayerNum];
+                    var message = conqueror + " has taken " + defeatedPlayer + " and gained all their pieces!!!";
+                    evutils.setModal('<h2>' + message + '</h2>');
+                    evutils.showAds();
+
                     for (var i = 0; i < gameState.board.tiles.length; i++) {
                         var tile = gameState.board.tiles[i];
                         if (tile.playerNum == endPlayerNum) {
-                            tile.playerNum = startPlayerNum
+                            tile.playerNum = startPlayerNum;
                         }
                     }
                 }
@@ -524,13 +534,18 @@ var mmochess = new (function () {
 
             endSelf.nextTurn = function () {
                 gameState.players_turn = gameState.players_turn++ % level.num_players + 1;
+
                 //TODO you loose get captured logic
-                if (gameState.players_turn != 1) {
-                    if (level.num_human_players < gameState.players_turn) {
-                        if (level.computer_opponent) {
-                            gameState.aiHandler.makeAiMove();
-                        }
-                    }
+                //is first computer player
+                if (level.num_human_players == gameState.players_turn - 1) {
+                    gameon.blockUI('<i class="fa fa-spinner fa-spin"></i>');
+                    //$('.blockOverlay').html('<i class="fa fa-spinner fa-spin"></i>')
+                }
+                if (level.num_human_players < gameState.players_turn) {
+                    gameState.aiHandler.makeAiMove();
+                }
+                else {
+                    gameon.unblockUI();
                 }
             };
 
@@ -781,7 +796,6 @@ var mmochess = new (function () {
 
 
             AISelf.makeAiMove = function () {
-                gameon.blockUI();
 
                 var maxScoreMove = AISelf.findMaxScoreMove();
 
@@ -790,7 +804,6 @@ var mmochess = new (function () {
                     //todo if all turns dont work then gameover
                     gameState.endHandler.nextTurn();
 //                    gameState.endHandler.gameOver();
-                    gameon.unblockUI();
                     return;
                 }
 
@@ -799,7 +812,6 @@ var mmochess = new (function () {
                 setTimeout(function () {
                     //move there
                     maxScoreMove[1].click();
-                    gameon.unblockUI();
                     //gameState.unselectAll();
                 }, 800);
             };
@@ -815,6 +827,6 @@ var mmochess = new (function () {
 
         construct();
         return gameState;
-    }
+    };
     return self;
 })();

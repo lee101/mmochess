@@ -412,10 +412,10 @@ body {
   background-color: #39e4d9;
 }
 .gameon-board td {
-  min-width: 55px;
-  width: 55px;
-  min-height: 55px;
-  height: 55px;
+  min-width: 60px;
+  width: 60px;
+  min-height: 60px;
+  height: 60px;
   border: 1px solid #d5d5d5;
 }
 .gameon-board table {
@@ -436,5 +436,10 @@ body {
 .ws-cell-highlight.even {
   background-color: #38863f;
   background: linear-gradient(to bottom, #2a6e2c 0%, #36923f 100%);
+}
+.blockMsg {
+  background-color: transparent !important;
+  border: none !important;
+  font-size: 39px;
 }
 /*# sourceMappingURL=/static/css/style.css.map */
