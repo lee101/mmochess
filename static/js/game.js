@@ -709,55 +709,6 @@ var mmochess = new (function () {
                     }
                 }
 
-                var playersExchangeScores = {
-                    1: 0,
-                    2: 0,
-                    3: 0,
-                    4: 0,
-                    5: 0,
-                    6: 0
-                };
-
-
-                $.each(tilesToTilesTheyCanTake, function (tileIdx, tilesWeCanTake) {
-                    var tile = gameState.board.getTile(tileIdx.split('-'));
-                    //does taking them cause a favourable exchange?
-                    for (var j = 0; j < tilesWeCanTake.length; j++) {
-                        var playersCurrentExchangeScores = {
-                            1: 0,
-                            2: 0,
-                            3: 0,
-                            4: 0,
-                            5: 0,
-                            6: 0
-                        };
-                        var tileWeCanTake = tilesWeCanTake[j];
-                        var tilesProtectors = tilesToOwnTilesWhichCanTakeThem[tileWeCanTake];
-                        var tilesAggressors = tilesToTilesWhichCanTakeThem[tileWeCanTake];
-                        tilesProtectors = _.sortBy(tilesProtectors, function (tile) {
-                            return fixtures.piecesPower[tile.type];
-                        });
-                        tilesAggressors = _.sortBy(tilesAggressors, function (tile) {
-                            return fixtures.piecesPower[tile.type];
-                        });
-
-                        playersCurrentExchangeScores[tileWeCanTake.playerNum] -= fixtures.piecesPower[tileWeCanTake.type];
-                        for (var k = 0; k < tilesAggressors.length && k < tilesProtectors.length; k++) {
-                            var aggressor = tilesAggressors[k];
-                            var defender = tilesProtectors[k];
-                            playersCurrentExchangeScores[aggressor.playerNum] -= fixtures.piecesPower[aggressor.type];
-                            playersCurrentExchangeScores[defender.playerNum] -= fixtures.piecesPower[defender.type];
-                        }
-
-                        $.each(playersCurrentExchangeScores, function (playerNum, score) {
-                            playersExchangeScores[playerNum] += score
-                        });
-                        //todo dampering when multiple playernums are counted in the conflict
-
-                    }
-                });
-
-
                 var boardsScore = 0;
 
                 function changeScore(changer) {
