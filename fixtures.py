@@ -1,5 +1,6 @@
 import json
 
+
 class Fixture(object):
     def __init__(self):
         super(Fixture, self).__init__()
