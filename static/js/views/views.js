@@ -74,7 +74,7 @@
         },
 
         render: function () {
-            this.$el.html(evutils.render('static/templates/shared/contact.jinja2'));
+            this.$el.html(evutils.render('contact.jinja2'));
             return this;
         }
     });
@@ -116,7 +116,7 @@
         render: function () {
             var self = this;
             gameon.getUser(function (user) {
-                self.$el.html(evutils.render('static/templates/shared/header.jinja2', {'path': self.path, 'user': user}));
+                self.$el.html(evutils.render('header.jinja2', {'path': self.path, 'user': user}));
             });
 
             return self;
@@ -129,7 +129,7 @@
         },
 
         render: function () {
-            this.$el.html(evutils.render('static/templates/shared/footer.jinja2', {'path': this.path}));
+            this.$el.html(evutils.render('footer.jinja2', {'path': this.path}));
             return this;
         }
     });

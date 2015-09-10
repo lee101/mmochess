@@ -28,7 +28,7 @@ var mmochess = new (function () {
             var tiles = gameState.initialBoardTiles();
             gameState.board = new gameon.Board(level.width, level.height, tiles);
 
-            var $html = $(evutils.render('static/templates/shared/game.jinja2'));
+            var $html = $(evutils.render('game.jinja2'));
             gameState.board.render($html.find('.gameon-board'));
             gameState.destruct = function () {
                 gameon.cleanBoards();
