@@ -1,27 +1,29 @@
-
 # Nunjucks
 
-[Nunjucks](http://jlongster.github.io/nunjucks/) is a full featured
+[Nunjucks](http://mozilla.github.io/nunjucks/) is a full featured
 templating engine for javascript. It is heavily inspired by
 [jinja2](http://jinja.pocoo.org/). View the docs
-[here](http://jlongster.github.io/nunjucks/).
+[here](http://mozilla.github.io/nunjucks/).
 
 ## Installation
 
 `npm install nunjucks`
 
-(View the [CHANGELOG](https://github.com/jlongster/nunjucks/blob/master/CHANGELOG.md))
-
-**Note**: 1.0 was just pushed out, so if you are currently using
-  nunjucks read the CHANGELOG. Especially important: the client-side
-  browser filenames have changed. [Read
-  here](http://jlongster.github.io/nunjucks/getting-started.html).
+(View the [CHANGELOG](https://github.com/mozilla/nunjucks/releases))
 
 ## Documentation
 
-See [here](http://jlongster.github.io/nunjucks/).
+See [here](http://mozilla.github.io/nunjucks/).
 
-Run all the tests at http://jlongster.github.io/nunjucks/files/tests/browser/.
+## Browser Support
+
+Supported in all modern browsers. For IE8 support, use [es5-shim](https://github.com/es-shims/es5-shim).
+
+## Tests
+
+Run the tests with `npm test`.
+
+Watch `master` branch's tests running at http://mozilla.github.io/nunjucks/files/tests/browser/.
 
 ## Mailing List
 
@@ -30,4 +32,4 @@ https://groups.google.com/forum/?fromgroups#!forum/nunjucks
 
 ## Contributors
 
-https://github.com/jlongster/nunjucks/graphs/contributors
+https://github.com/mozilla/nunjucks/graphs/contributors

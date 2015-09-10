@@ -335,7 +335,7 @@ body {
   text-shadow: 0 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
 }
 .chess-piece--selected {
-  text-shadow: 0 0 #ffd700, 1px -1px 0 #ffd700, -1px 1px 0 #ffd700, 1px 1px 0 #ffd700;
+  text-shadow: 0 0 gold, 1px -1px 0 gold, -1px 1px 0 gold, 1px 1px 0 gold;
 }
 .chess-piece--player-1 {
   color: #e6e6e6;
@@ -442,4 +442,4 @@ body {
   border: none !important;
   font-size: 39px;
 }
-/*# sourceMappingURL=/static/css/style.css.map */
+/*# sourceMappingURL=static/css/style.css.map */
