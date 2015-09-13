@@ -813,7 +813,7 @@ var mmochess = new (function () {
                     //move there
                     maxScoreMove[1].click();
                     //gameState.unselectAll();
-                }, 800);
+                }, 600);
             };
 
 
