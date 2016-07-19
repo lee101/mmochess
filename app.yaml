@@ -89,23 +89,6 @@ automatic_scaling:
 #   min_idle_instances: 2
 #   max_pending_latency: 4.5s
 
-pagespeed:
-
-  url_blacklist:
-  - http://bigmultiplayerchess.com/static/music/*
-  - http://bigmultiplayerchess.com/sitemap
-  - http://bigmultiplayerchess.com/manifest.webapp
-  - http://bigmultiplayerchess.com/manifest-noads.webapp
-  - https://mmochess.appspot.com/buy
-  # enabled_rewriters:
-  # - CollapseWhitespace
-  # - CombineHeads
-  # - ElideAttributes
-  # - RemoveComments
-  # - MinifyCss
-  # - InlineJs
-  # - LeftTrimUrls
-
 inbound_services:
 - warmup
 
