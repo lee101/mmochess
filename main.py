@@ -51,7 +51,7 @@ class BaseHandler(webapp2.RequestHandler):
 
 class MainHandler(BaseHandler):
     def get(self):
-        noads = self.request.get('noads', False)
+        noads = self.request.get('noads', True)
         self.render('templates/index.jinja2', {'noads': noads})
 
 
@@ -63,19 +63,19 @@ class TestsHandler(BaseHandler):
 class FbHandler(BaseHandler):
     def get(self):
         # redirect to home
-        noads = self.request.get('noads', False)
+        noads = self.request.get('noads', True)
         self.render('templates/index.jinja2', {'noads': noads})
 
 
 class ContactHandler(BaseHandler):
     def get(self):
-        noads = self.request.get('noads', False)
+        noads = self.request.get('noads', True)
         self.render('templates/contact.jinja2', {'noads': noads})
 
 
 class AboutHandler(BaseHandler):
     def get(self):
-        noads = self.request.get('noads', False)
+        noads = self.request.get('noads', True)
         self.render('templates/about.jinja2', {'noads': noads})
 
 
@@ -84,18 +84,18 @@ class PrivacyHandler(BaseHandler):
         if 'privacy-policy' in self.request.path:
             self.redirect('/privacy', True)
 
-        noads = self.request.get('noads', False)
+        noads = self.request.get('noads', True)
         self.render('templates/privacy.jinja2', {'noads': noads})
 
 
 class TermsHandler(BaseHandler):
     def get(self):
-        noads = self.request.get('noads', False)
+        noads = self.request.get('noads', True)
         self.render('templates/terms.jinja2', {'noads': noads})
 
 class VersusHandler(BaseHandler):
     def get(self):
-        noads = self.request.get('noads', False)
+        noads = self.request.get('noads', True)
         self.render('templates/versus.jinja2', {'noads': noads})
 
 
@@ -103,21 +103,21 @@ class TimedHandler(BaseHandler):
     def get(self):
 
         # self.redirect('/', True)
-        noads = self.request.get('noads', False)
+        noads = self.request.get('noads', True)
         self.render('templates/index.jinja2', {'noads': noads})
 
 
 class FriendsHandler(BaseHandler):
     def get(self):
         # self.redirect('/versus', True)
-        noads = self.request.get('noads', False)
+        noads = self.request.get('noads', True)
         self.render('templates/versus.jinja2', {'noads': noads})
 
 
 class GameMultiplayerHandler(BaseHandler):
     def get(self):
         # redirect home
-        noads = self.request.get('noads', False)
+        noads = self.request.get('noads', True)
         self.render('templates/index.jinja2', {'noads': noads})
 
 
@@ -128,7 +128,7 @@ class GamesHandler(BaseHandler):
 
 class CampaignHandler(BaseHandler):
     def get(self):
-        noads = self.request.get('noads', False)
+        noads = self.request.get('noads', True)
         self.render('templates/campaign.jinja2', {'noads': noads})
 
 
