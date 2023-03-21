@@ -3,7 +3,7 @@ import time
 from jinja2 import Template, Environment, FileSystemLoader
 
 env = Environment(loader=FileSystemLoader('.'))
-print env.get_template('index.html').render()
+print(env.get_template('index.html').render())
 
 # src = open('index.html').read()
 

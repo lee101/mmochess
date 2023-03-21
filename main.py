@@ -3,10 +3,9 @@
 import os
 import json
 import urllib
+from urllib.parse import quote_plus
 
 from google.appengine.ext import ndb
-import logging
-import webapp2
 import jinja2
 
 import fixtures
@@ -40,7 +39,7 @@ class BaseHandler(webapp2.RequestHandler):
             'host': self.request.host,
             'host_url': self.request.host_url,
             'path': self.request.path,
-            'urlencode': urllib.quote_plus,
+            'urlencode': quote_plus,
             # 'num_levels': len(LEVELS)
         }
         template_values.update(extraParams)

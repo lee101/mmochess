@@ -5,7 +5,7 @@ import hashlib
 import string
 import unicodedata
 from datetime import datetime, timedelta
-import Cookie
+import http.cookies
 import webapp2
 
 def random_string(size=6, chars=string.ascii_letters + string.digits):
@@ -33,7 +33,7 @@ def hashing(plaintext, salt=""):
         encryptor = AES.new(app.config.get('aes_key'), mode,iv)
         ciphertext = [encryptor.encrypt(chunk) for chunk in chunks(phrase_digest, 16)]
         return ''.join(ciphertext)
-    except (ImportError, NameError), e:
+    except (ImportError, NameError) as e:
         import logging
         logging.error("CRYPTO is not running")
         return phrase_digest
@@ -41,7 +41,7 @@ def hashing(plaintext, salt=""):
 def chunks(list, size):
     """ Yield successive sized chunks from list. """
 
-    for i in xrange(0, len(list), size):
+    for i in range(0, len(list), size):
         yield list[i:i+size]
 
 def encode(plainText):
@@ -88,7 +88,7 @@ def read_cookie(cls, name):
     """ Use: cook.read(cls, COOKIE_NAME) """
 
     string_cookie = os.environ.get('HTTP_COOKIE', '')
-    cls.cookie = Cookie.SimpleCookie()
+    cls.cookie = http.cookies.SimpleCookie()
     cls.cookie.load(string_cookie)
     value = None
     if cls.cookie.get(name):
@@ -195,10 +195,10 @@ def slugify(value):
     _slugify_strip_re = re.compile(r'[^\w\s-]')
     _slugify_hyphenate_re = re.compile(r'[-\s]+')
 
-    if not isinstance(value, unicode):
-        value = unicode(value)
+    if not isinstance(value, str):
+        value = str(value)
     value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
-    value = unicode(_slugify_strip_re.sub('', value).strip().lower())
+    value = str(_slugify_strip_re.sub('', value).strip().lower())
     return _slugify_hyphenate_re.sub('-', value)
 
 def parse_if_int(s):
