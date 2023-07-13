@@ -5,9 +5,9 @@ import json
 import urllib
 from urllib.parse import quote_plus
 
-from google.appengine.ext import ndb
 import jinja2
 
+import webapp2
 import fixtures
 from gameon import gameon
 from gameon.gameon_utils import GameOnUtils
@@ -22,7 +22,8 @@ config['webapp2_extras.sessions'] = dict(secret_key='93986c9cdd240540f70efaea56a
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
-    extensions=['jinja2.ext.autoescape'])
+    # extensions=['jinja2.ext.autoescape']
+)
 
 
 class BaseHandler(webapp2.RequestHandler):
@@ -141,7 +142,7 @@ class SlashMurdererApp(webapp2.RequestHandler):
         self.redirect(url)
 
 
-app = ndb.toplevel(webapp2.WSGIApplication([
+app = webapp2.WSGIApplication([
                                                ('/', MainHandler),
                                                ('(.*)/$', SlashMurdererApp),
 
@@ -166,4 +167,4 @@ app = ndb.toplevel(webapp2.WSGIApplication([
 
                                                ('/sitemap', SitemapHandler),
 
-                                           ] + gameon.routes, debug=ws.debug, config=config))
+                                           ] + gameon.routes, debug=ws.debug, config=config)
