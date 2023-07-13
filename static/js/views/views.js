@@ -7,7 +7,7 @@
         },
 
         render: function () {
-            this.$el.html(evutils.render('static/templates/shared/start.jinja2'));
+            this.$el.html(evutils.render('start.jinja2'));
 
             return this;
         }
@@ -55,7 +55,7 @@
         },
 
         render: function () {
-            this.$el.html(evutils.render('static/templates/shared/versus.jinja2'));
+            this.$el.html(evutils.render('versus.jinja2'));
             return this;
         }
     });
@@ -84,7 +84,7 @@
         },
 
         render: function () {
-            this.$el.html(evutils.render('static/templates/shared/about.jinja2'));
+            this.$el.html(evutils.render('about.jinja2'));
             return this;
         }
     });
@@ -93,7 +93,7 @@
         },
 
         render: function () {
-            this.$el.html(evutils.render('static/templates/shared/terms.jinja2'));
+            this.$el.html(evutils.render('terms.jinja2'));
             return this;
         }
     });
@@ -102,7 +102,7 @@
         },
 
         render: function () {
-            this.$el.html(evutils.render('static/templates/shared/privacy.jinja2'));
+            this.$el.html(evutils.render('privacy.jinja2'));
             return this;
         }
     });
