@@ -1,18 +1,16 @@
 #!/usr/bin/env python
 
-import os
 import json
-import urllib.request, urllib.parse, urllib.error
+import os
 from urllib.parse import quote_plus
 
 import jinja2
-
 import webapp2
+
 import fixtures
 from gameon import gameon
 from gameon.gameon_utils import GameOnUtils
 from ws import ws
-
 
 FACEBOOK_APP_ID = "138831849632195"
 FACEBOOK_APP_SECRET = "93986c9cdd240540f70efaea56a9e3f2"
@@ -24,6 +22,13 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     # extensions=['jinja2.ext.autoescape']
 )
+if GameOnUtils.debug:
+    GCLOUD_STATIC_BUCKET_URL = "/static"
+    GAMEON_GCLOUD_STATIC_BUCKET_URL = "/gameon/static"
+else:
+    GCLOUD_STATIC_BUCKET_URL = "https://static.bigmultiplayerchess.com/static"
+    GAMEON_STATIC_BUCKET_URL = "https://static.bigmultiplayerchess.com/gameon/static"
+
 
 
 class BaseHandler(webapp2.RequestHandler):
@@ -39,6 +44,8 @@ class BaseHandler(webapp2.RequestHandler):
             'url': self.request.uri,
             'host': self.request.host,
             'host_url': self.request.host_url,
+            'static_url': GCLOUD_STATIC_BUCKET_URL,
+            'gameon_static_url': GAMEON_STATIC_BUCKET_URL,
             'path': self.request.path,
             'urlencode': quote_plus,
             # 'num_levels': len(LEVELS)
@@ -93,6 +100,7 @@ class TermsHandler(BaseHandler):
         noads = self.request.get('noads', True)
         self.render('templates/terms.jinja2', {'noads': noads})
 
+
 class VersusHandler(BaseHandler):
     def get(self):
         noads = self.request.get('noads', True)
@@ -101,7 +109,6 @@ class VersusHandler(BaseHandler):
 
 class TimedHandler(BaseHandler):
     def get(self):
-
         # self.redirect('/', True)
         noads = self.request.get('noads', True)
         self.render('templates/index.jinja2', {'noads': noads})
@@ -137,34 +144,35 @@ class SitemapHandler(BaseHandler):
         self.response.headers['Content-Type'] = 'text/xml'
         self.render('sitemap.xml')
 
+
 class SlashMurdererApp(webapp2.RequestHandler):
     def get(self, url):
         self.redirect(url)
 
 
 app = webapp2.WSGIApplication([
-                                               ('/', MainHandler),
-                                               ('(.*)/$', SlashMurdererApp),
+                                  ('/', MainHandler),
+                                  ('(.*)/$', SlashMurdererApp),
 
-                                               ('/privacy', PrivacyHandler),
-                                               ('/privacy-policy', PrivacyHandler),
-                                               ('/terms', TermsHandler),
-                                               ('/facebook', FbHandler),
-                                               ('/about', AboutHandler),
-                                               ('/contact', ContactHandler),
-                                               ('/versus', VersusHandler),
-                                               ('/timed', TimedHandler),
-                                               ('/multiplayer', FriendsHandler),
-                                               ('/games-multiplayer', GameMultiplayerHandler),
-                                               ('/games', GamesHandler),
+                                  ('/privacy', PrivacyHandler),
+                                  ('/privacy-policy', PrivacyHandler),
+                                  ('/terms', TermsHandler),
+                                  ('/facebook', FbHandler),
+                                  ('/about', AboutHandler),
+                                  ('/contact', ContactHandler),
+                                  ('/versus', VersusHandler),
+                                  ('/timed', TimedHandler),
+                                  ('/multiplayer', FriendsHandler),
+                                  ('/games-multiplayer', GameMultiplayerHandler),
+                                  ('/games', GamesHandler),
 
-                                               # need js rendering
-                                               ('/play', CampaignHandler),
+                                  # need js rendering
+                                  ('/play', CampaignHandler),
 
-                                               (r'/versus/..*', MainHandler),
+                                  (r'/versus/..*', MainHandler),
 
-                                               (r'/tests', TestsHandler),
+                                  (r'/tests', TestsHandler),
 
-                                               ('/sitemap', SitemapHandler),
+                                  ('/sitemap', SitemapHandler),
 
-                                           ] + gameon.routes, debug=ws.debug, config=config)
+                              ] + gameon.routes, debug=ws.debug, config=config)

@@ -34,3 +34,9 @@ sellerinfo.py
 static/js/templates.js
 
 node_modules
+
+env
+venv
+secrets
+.env
+.settings

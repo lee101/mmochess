@@ -29,20 +29,20 @@
 
 {% macro cssheaders() -%}
 
-    <link type="text/css" rel="stylesheet" href="/static/css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="{{ static_url }}/css/style.css"/>
 {%- endmacro %}
 
 {% macro jsheaders() -%}
-    <script type="text/javascript" src="/static/bower_components/underscore/underscore.js"></script>
-    <script type="text/javascript" src="/static/bower_components/backbone/backbone.js"></script>
-    <script type="text/javascript" src="/static/bower_components/nunjucks/browser/nunjucks.js"></script>
+    <script type="text/javascript" src="{{ static_url }}/bower_components/underscore/underscore.js"></script>
+    <script type="text/javascript" src="{{ static_url }}/bower_components/backbone/backbone.js"></script>
+    <script type="text/javascript" src="{{ gameon_static_url }}/js/lib/nunjucks-slim.js"></script>
 
-    {#    <script type="text/javascript" src="/static/js/nunjucks-slim.js"></script>#}
-    <script type="text/javascript" src="/static/js/templates.js"></script>
-    <script type="text/javascript" src="/static/js/router.js"></script>
-    <script type="text/javascript" src="/static/js/evutils.js"></script>
-    <script type="text/javascript" src="/static/js/views/views.js"></script>
-    <script type="text/javascript" src="/static/js/game.js"></script>
+    {#    <script type="text/javascript" src="{{ static_url }}/js/nunjucks-slim.js"></script>#}
+    <script type="text/javascript" src="{{ static_url }}/js/templates.js"></script>
+    <script type="text/javascript" src="{{ static_url }}/js/router.js"></script>
+    <script type="text/javascript" src="{{ static_url }}/js/evutils.js"></script>
+    <script type="text/javascript" src="{{ static_url }}/js/views/views.js"></script>
+    <script type="text/javascript" src="{{ static_url }}/js/game.js"></script>
 
 
     <script>
