@@ -1,8 +1,8 @@
 gameon.loadSound('theme', 'http://commondatastorage.googleapis.com/wordsmashing%2Fws-piano-theme2.mp3');
-gameon.loadSound('score', '/gameon/static/music/star.mp3');
-gameon.loadSound('win', '/gameon/static/music/winning-level.mp3');
-gameon.loadSound('moved', '/static/music/moved-letter.m4a');
-gameon.loadSound('moving', '/static/music/moving-letter.m4a');
+gameon.loadSound('score', 'https://static.bigmultiplayerchess.com/gameon/static/music/star.mp3');
+gameon.loadSound('win', 'https://static.bigmultiplayerchess.com/gameon/static/music/winning-level.mp3');
+gameon.loadSound('moved', 'https://static.bigmultiplayerchess.com/static/music/moved-letter.m4a');
+gameon.loadSound('moving', 'https://static.bigmultiplayerchess.com/static/music/moving-letter.m4a');
 
 var mmochess = new (function () {
     "use strict";

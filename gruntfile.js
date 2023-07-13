@@ -16,7 +16,7 @@ module.exports = function (grunt) {
         },
         watch: {
             nunjucks: {
-                files: ['templates/shared/*', '!templates/shared/about.jinja2', '!templates/shared/about.jinja2', '!templates/shared/terms.jinja2', '!templates/shared/privacy.jinja2'],
+                files: ['templates/shared/*', '!templates/shared/about.jinja2', '!templates/shared/contact.jinja2', '!templates/shared/terms.jinja2', '!templates/shared/privacy.jinja2'],
                 tasks: ['nunjucks']
             },
             less: {

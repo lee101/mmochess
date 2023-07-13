@@ -74,6 +74,7 @@
         },
 
         render: function () {
+            window.location.href = '/contact';
             this.$el.html(evutils.render('contact.jinja2'));
             return this;
         }
@@ -84,6 +85,7 @@
         },
 
         render: function () {
+            window.location.href = '/about';
             this.$el.html(evutils.render('about.jinja2'));
             return this;
         }
@@ -93,6 +95,7 @@
         },
 
         render: function () {
+            window.location.href = '/terms';
             this.$el.html(evutils.render('terms.jinja2'));
             return this;
         }
@@ -102,6 +105,7 @@
         },
 
         render: function () {
+            window.location.href = '/privacy';
             this.$el.html(evutils.render('privacy.jinja2'));
             return this;
         }

@@ -17,18 +17,18 @@
 {% endblock %}
 
 {% block css %}
-    <link rel="shortcut icon" type="image/png" href="/gameon/static/js/lib/jasmine-2.0.0/jasmine_favicon.png">
-    <link rel="stylesheet" type="text/css" href="/gameon/static/js/lib/jasmine-2.0.0/jasmine.css">
+    <link rel="shortcut icon" type="image/png" href="{{ gameon_static_url }}/js/lib/jasmine-2.0.0/jasmine_favicon.png">
+    <link rel="stylesheet" type="text/css" href="{{ gameon_static_url }}/js/lib/jasmine-2.0.0/jasmine.css">
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript" src="/gameon/static/js/lib/jasmine-2.0.0/jasmine.js"></script>
-    <script type="text/javascript" src="/gameon/static/js/lib/jasmine-2.0.0/jasmine-html.js"></script>
-    <script type="text/javascript" src="/gameon/static/js/lib/jasmine-2.0.0/boot.js"></script>
+    <script type="text/javascript" src="{{ gameon_static_url }}/js/lib/jasmine-2.0.0/jasmine.js"></script>
+    <script type="text/javascript" src="{{ gameon_static_url }}/js/lib/jasmine-2.0.0/jasmine-html.js"></script>
+    <script type="text/javascript" src="{{ gameon_static_url }}/js/lib/jasmine-2.0.0/boot.js"></script>
 
-    <script type="text/javascript" src="/gameon/static/js/tests/SpecHelper.js"></script>
+    <script type="text/javascript" src="{{ gameon_static_url }}/js/tests/SpecHelper.js"></script>
     <script type="text/javascript" src="{{ static_url }}/js/tests/setup.js"></script>
-    <script type="text/javascript" src="{{ static_url }}c/js/tests/tests.js"></script>
+    <script type="text/javascript" src="{{ static_url }}/js/tests/tests.js"></script>
 
 {% endblock %}
 
