@@ -2,7 +2,7 @@
 
 import os
 import json
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from urllib.parse import quote_plus
 
 import jinja2
