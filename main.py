@@ -2,169 +2,122 @@
 
 import os
 import json
-import urllib
+import urllib.parse
 
-from google.appengine.ext import ndb
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 import logging
-import webapp2
-import jinja2
 
 import fixtures
-from gameon import gameon
-from gameon.gameon_utils import GameOnUtils
+from gameon import gameon_router
 from ws import ws
+from database import init_db
 
+class GameOnUtils:
+    class MyEncoder:
+        pass
 
 FACEBOOK_APP_ID = "138831849632195"
 FACEBOOK_APP_SECRET = "93986c9cdd240540f70efaea56a9e3f2"
 
-config = {}
-config['webapp2_extras.sessions'] = dict(secret_key='93986c9cdd240540f70efaea56a9e3f2')
+app = FastAPI()
+templates = Jinja2Templates(directory=".")
 
-JINJA_ENVIRONMENT = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
-    extensions=['jinja2.ext.autoescape'])
+@app.on_event("startup")
+async def startup_event():
+    init_db()
 
+app.mount("/gameon/static", StaticFiles(directory="gameon/static"), name="gameon_static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/transient", StaticFiles(directory="transient"), name="transient")
 
-class BaseHandler(webapp2.RequestHandler):
-    def render(self, view_name, extraParams={}):
-        template_values = {
-            'fixtures': fixtures,
-            'ws': ws,
-            'json': json,
-            'GameOnUtils': GameOnUtils,
-            # 'facebook_app_id': FACEBOOK_APP_ID,
-            # 'glogin_url': users.create_login_url(self.request.uri),
-            # 'glogout_url': users.create_logout_url(self.request.uri),
-            'url': self.request.uri,
-            'host': self.request.host,
-            'host_url': self.request.host_url,
-            'path': self.request.path,
-            'urlencode': urllib.quote_plus,
-            # 'num_levels': len(LEVELS)
-        }
-        template_values.update(extraParams)
+app.include_router(gameon_router)
 
-        template = JINJA_ENVIRONMENT.get_template(view_name)
-        self.response.write(template.render(template_values))
+def get_template_values(request: Request, **kwargs):
+    return {
+        'request': request,
+        'fixtures': fixtures,
+        'ws': ws,
+        'json': json,
+        'GameOnUtils': GameOnUtils,
+        'url': str(request.url),
+        'host': request.url.hostname,
+        'host_url': f"{request.url.scheme}://{request.url.netloc}",
+        'path': request.url.path,
+        'urlencode': urllib.parse.quote_plus,
+        **kwargs
+    }
 
-
-class MainHandler(BaseHandler):
-    def get(self):
-        noads = self.request.get('noads', True)
-        self.render('templates/index.jinja2', {'noads': noads})
+@app.get('/', response_class=HTMLResponse)
+async def index(request: Request, noads: bool = True):
+    return templates.TemplateResponse('templates/index.jinja2', get_template_values(request, noads=noads))
 
 
-class TestsHandler(BaseHandler):
-    def get(self):
-        self.render('templates/tests.jinja2')
+@app.get('/tests', response_class=HTMLResponse)
+async def tests(request: Request):
+    return templates.TemplateResponse('templates/tests.jinja2', get_template_values(request))
 
+@app.get('/facebook', response_class=HTMLResponse)
+async def facebook(request: Request, noads: bool = True):
+    return templates.TemplateResponse('templates/index.jinja2', get_template_values(request, noads=noads))
 
-class FbHandler(BaseHandler):
-    def get(self):
-        # redirect to home
-        noads = self.request.get('noads', True)
-        self.render('templates/index.jinja2', {'noads': noads})
+@app.get('/contact', response_class=HTMLResponse)
+async def contact(request: Request, noads: bool = True):
+    return templates.TemplateResponse('templates/contact.jinja2', get_template_values(request, noads=noads))
 
+@app.get('/about', response_class=HTMLResponse)
+async def about(request: Request, noads: bool = True):
+    return templates.TemplateResponse('templates/about.jinja2', get_template_values(request, noads=noads))
 
-class ContactHandler(BaseHandler):
-    def get(self):
-        noads = self.request.get('noads', True)
-        self.render('templates/contact.jinja2', {'noads': noads})
+@app.get('/privacy-policy')
+async def privacy_policy_redirect():
+    return RedirectResponse(url='/privacy', status_code=301)
 
+@app.get('/privacy', response_class=HTMLResponse)
+async def privacy(request: Request, noads: bool = True):
+    return templates.TemplateResponse('templates/privacy.jinja2', get_template_values(request, noads=noads))
 
-class AboutHandler(BaseHandler):
-    def get(self):
-        noads = self.request.get('noads', True)
-        self.render('templates/about.jinja2', {'noads': noads})
+@app.get('/terms', response_class=HTMLResponse)
+async def terms(request: Request, noads: bool = True):
+    return templates.TemplateResponse('templates/terms.jinja2', get_template_values(request, noads=noads))
 
+@app.get('/versus', response_class=HTMLResponse)
+@app.get('/versus/{subpath:path}', response_class=HTMLResponse)
+async def versus(request: Request, subpath: str = None, noads: bool = True):
+    return templates.TemplateResponse('templates/versus.jinja2', get_template_values(request, noads=noads))
 
-class PrivacyHandler(BaseHandler):
-    def get(self):
-        if 'privacy-policy' in self.request.path:
-            self.redirect('/privacy', True)
+@app.get('/timed', response_class=HTMLResponse)
+async def timed(request: Request, noads: bool = True):
+    return templates.TemplateResponse('templates/index.jinja2', get_template_values(request, noads=noads))
 
-        noads = self.request.get('noads', True)
-        self.render('templates/privacy.jinja2', {'noads': noads})
+@app.get('/multiplayer', response_class=HTMLResponse)
+async def multiplayer(request: Request, noads: bool = True):
+    return templates.TemplateResponse('templates/versus.jinja2', get_template_values(request, noads=noads))
 
+@app.get('/games-multiplayer', response_class=HTMLResponse)
+async def games_multiplayer(request: Request, noads: bool = True):
+    return templates.TemplateResponse('templates/index.jinja2', get_template_values(request, noads=noads))
 
-class TermsHandler(BaseHandler):
-    def get(self):
-        noads = self.request.get('noads', True)
-        self.render('templates/terms.jinja2', {'noads': noads})
+@app.get('/games', response_class=HTMLResponse)
+async def games(request: Request):
+    return templates.TemplateResponse('templates/index.jinja2', get_template_values(request, noads=True))
 
-class VersusHandler(BaseHandler):
-    def get(self):
-        noads = self.request.get('noads', True)
-        self.render('templates/versus.jinja2', {'noads': noads})
+@app.get('/play', response_class=HTMLResponse)
+async def play(request: Request, noads: bool = True):
+    return templates.TemplateResponse('templates/campaign.jinja2', get_template_values(request, noads=noads))
 
+@app.get('/sitemap')
+async def sitemap(request: Request):
+    from fastapi.responses import Response
+    content = templates.get_template('templates/sitemap.xml').render(get_template_values(request))
+    return Response(content=content, media_type='text/xml')
 
-class TimedHandler(BaseHandler):
-    def get(self):
+@app.get('/{url:path}/')
+async def remove_trailing_slash(url: str):
+    return RedirectResponse(url=f'/{url}')
 
-        # self.redirect('/', True)
-        noads = self.request.get('noads', True)
-        self.render('templates/index.jinja2', {'noads': noads})
-
-
-class FriendsHandler(BaseHandler):
-    def get(self):
-        # self.redirect('/versus', True)
-        noads = self.request.get('noads', True)
-        self.render('templates/versus.jinja2', {'noads': noads})
-
-
-class GameMultiplayerHandler(BaseHandler):
-    def get(self):
-        # redirect home
-        noads = self.request.get('noads', True)
-        self.render('templates/index.jinja2', {'noads': noads})
-
-
-class GamesHandler(BaseHandler):
-    def get(self):
-        self.render('templates/index.jinja2', {'noads': True})
-
-
-class CampaignHandler(BaseHandler):
-    def get(self):
-        noads = self.request.get('noads', True)
-        self.render('templates/campaign.jinja2', {'noads': noads})
-
-
-class SitemapHandler(BaseHandler):
-    def get(self):
-        self.response.headers['Content-Type'] = 'text/xml'
-        self.render('sitemap.xml')
-
-class SlashMurdererApp(webapp2.RequestHandler):
-    def get(self, url):
-        self.redirect(url)
-
-
-app = ndb.toplevel(webapp2.WSGIApplication([
-                                               ('/', MainHandler),
-                                               ('(.*)/$', SlashMurdererApp),
-
-                                               ('/privacy', PrivacyHandler),
-                                               ('/privacy-policy', PrivacyHandler),
-                                               ('/terms', TermsHandler),
-                                               ('/facebook', FbHandler),
-                                               ('/about', AboutHandler),
-                                               ('/contact', ContactHandler),
-                                               ('/versus', VersusHandler),
-                                               ('/timed', TimedHandler),
-                                               ('/multiplayer', FriendsHandler),
-                                               ('/games-multiplayer', GameMultiplayerHandler),
-                                               ('/games', GamesHandler),
-
-                                               # need js rendering
-                                               ('/play', CampaignHandler),
-
-                                               (r'/versus/..*', MainHandler),
-
-                                               (r'/tests', TestsHandler),
-
-                                               ('/sitemap', SitemapHandler),
-
-                                           ] + gameon.routes, debug=ws.debug, config=config))
+if __name__ == '__main__':
+    import uvicorn
+    uvicorn.run(app, host='0.0.0.0', port=8080)
