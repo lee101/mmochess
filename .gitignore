@@ -36,3 +36,4 @@ static/js/templates.js
 node_modules
 .venv314/
 mmochess.db
+gameon.db

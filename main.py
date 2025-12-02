@@ -22,6 +22,9 @@ class GameOnUtils:
 FACEBOOK_APP_ID = "138831849632195"
 FACEBOOK_APP_SECRET = "93986c9cdd240540f70efaea56a9e3f2"
 
+DEV = os.environ.get('DEV', 'true').lower() == 'true'
+STATIC_URL = '' if DEV else 'https://bigmultiplayerstatic.bigmultiplayerchess.com'
+
 app = FastAPI()
 templates = Jinja2Templates(directory=".")
 
@@ -47,6 +50,8 @@ def get_template_values(request: Request, **kwargs):
         'host_url': f"{request.url.scheme}://{request.url.netloc}",
         'path': request.url.path,
         'urlencode': urllib.parse.quote_plus,
+        'static_url': STATIC_URL,
+        'dev': DEV,
         **kwargs
     }
 
@@ -114,9 +119,6 @@ async def sitemap(request: Request):
     content = templates.get_template('templates/sitemap.xml').render(get_template_values(request))
     return Response(content=content, media_type='text/xml')
 
-@app.get('/{url:path}/')
-async def remove_trailing_slash(url: str):
-    return RedirectResponse(url=f'/{url}')
 
 if __name__ == '__main__':
     import uvicorn

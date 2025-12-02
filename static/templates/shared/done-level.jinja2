@@ -34,8 +34,9 @@
         <p class="mm-sharing-btns">
             {% set encoded_desc = urlencode(title) -%}
             {% set encoded_desc_short = urlencode(description) -%}
-            Share <a href="#" class="facebook-share-btn" title="Share on Facebook"><i
-                class="fa fa-facebook-square mm-share-btn"></i> </a>
+            Share <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url) }}"
+               target="_blank" rel="nofollow" title="Share on Facebook"><i
+                class="fa fa-facebook-square mm-share-btn"></i></a>
             <a href="https://twitter.com/intent/tweet?url={{ urlencode(url) }}&text={{ encoded_desc_short }}"
                target="_blank" rel="nofollow" title="Tweet on Twitter">
                 <i class="fa fa-twitter-square mm-share-btn mm-share-btn--twitter"></i>

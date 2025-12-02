@@ -1,48 +1,48 @@
 {% macro headers() -%}
     <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
-    <link rel="manifest" href="/manifest.webapp">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="manifest" href="{{ static_url }}/manifest.webapp">
+    <link rel="shortcut icon" href="{{ static_url }}/static/img/favicon.ico" type="image/x-icon"/>
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
-    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-    <link rel="manifest" href="/android-chrome-manifest.json">
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ static_url }}/static/img/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ static_url }}/static/img/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ static_url }}/static/img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ static_url }}/static/img/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ static_url }}/static/img/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ static_url }}/static/img/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ static_url }}/static/img/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ static_url }}/static/img/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ static_url }}/static/img/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="{{ static_url }}/static/img/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{ static_url }}/static/img/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="{{ static_url }}/static/img/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="{{ static_url }}/static/img/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="{{ static_url }}/manifest/android-chrome-manifest.json">
     <meta name="apple-mobile-web-app-title" content="Big Multiplayer Chess">
     <meta name="application-name" content="Big Multiplayer Chess">
     <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+    <meta name="msapplication-TileImage" content="{{ static_url }}/static/img/mstile-144x144.png">
     <meta name="theme-color" content="#ffffff">
 {%- endmacro %}
 
 {% macro cssheaders() -%}
-
-    <link type="text/css" rel="stylesheet" href="/static/css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="{{ static_url }}/static/css/style.css"/>
 {%- endmacro %}
 
 {% macro jsheaders() -%}
-    <script type="text/javascript" src="/static/bower_components/underscore/underscore.js"></script>
-    <script type="text/javascript" src="/static/bower_components/backbone/backbone.js"></script>
-    <script type="text/javascript" src="/static/bower_components/nunjucks/browser/nunjucks.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8598649123553748" crossorigin="anonymous"></script>
+    <script>window.adsbygoogle = window.adsbygoogle || [];</script>
+    <script type="text/javascript" src="{{ static_url }}/static/bower_components/underscore/underscore.js"></script>
+    <script type="text/javascript" src="{{ static_url }}/static/bower_components/backbone/backbone.js"></script>
+    <script type="text/javascript" src="{{ static_url }}/static/bower_components/nunjucks/browser/nunjucks.js"></script>
 
-    {#    <script type="text/javascript" src="/static/js/nunjucks-slim.js"></script>#}
-    <script type="text/javascript" src="/static/js/templates.js"></script>
-    <script type="text/javascript" src="/static/js/router.js"></script>
-    <script type="text/javascript" src="/static/js/evutils.js"></script>
-    <script type="text/javascript" src="/static/js/views/views.js"></script>
-    <script type="text/javascript" src="/static/js/game.js"></script>
+    <script type="text/javascript" src="{{ static_url }}/static/js/templates.js"></script>
+    <script type="text/javascript" src="{{ static_url }}/static/js/router.js"></script>
+    <script type="text/javascript" src="{{ static_url }}/static/js/evutils.js"></script>
+    <script type="text/javascript" src="{{ static_url }}/static/js/views/views.js"></script>
+    <script type="text/javascript" src="{{ static_url }}/static/js/game.js"></script>
 
 
     <script>
@@ -93,15 +93,13 @@
 {%- endmacro %}
 
 
-{%- macro responsiveAd() %}
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <!-- responsiveAd -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-7026363262140448"
-         data-ad-slot="9824934150"
-         data-ad-format="auto"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+{%- macro responsiveAd(slot="7003733604", class_name="adsbygoogle", layout="display:block", format="auto", full_width="true") %}
+<ins class="{{ class_name }}" style="{{ layout }}"
+     data-ad-client="ca-pub-8598649123553748"
+     data-ad-slot="{{ slot }}"
+     data-ad-format="{{ format }}"
+     data-full-width-responsive="{{ full_width }}"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 {%- endmacro %}

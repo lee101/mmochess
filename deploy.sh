@@ -15,6 +15,7 @@ R2_ENDPOINT="https://f76d25b8b86cfa5638f43016510d8f77.r2.cloudflarestorage.com"
 SYNC_OPTS="--endpoint-url $R2_ENDPOINT --size-only"
 
 aws s3 sync ./static s3://bigmultiplayerchessstatic/static $SYNC_OPTS
+aws s3 sync ./gameon/static s3://bigmultiplayerchessstatic/gameon/static $SYNC_OPTS
 aws s3 sync ./transient s3://bigmultiplayerchessstatic/transient $SYNC_OPTS
 aws s3 sync ./manifest s3://bigmultiplayerchessstatic/manifest $SYNC_OPTS
 

@@ -40,14 +40,6 @@ window.evutils = new (function () {
             .toLowerCase();
     };
 
-    //share buttons
-    $(document).on('click', '.facebook-share-btn', function () {
-        FB.ui({
-            method: 'share',
-            href: window.location.href
-        }, function (response) {
-        });
-    });
 
 
     self.render = function (template, opts, callback) {
