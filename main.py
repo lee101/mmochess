@@ -23,7 +23,7 @@ FACEBOOK_APP_ID = "138831849632195"
 FACEBOOK_APP_SECRET = "93986c9cdd240540f70efaea56a9e3f2"
 
 DEV = os.environ.get('DEV', 'true').lower() == 'true'
-STATIC_URL = '' if DEV else 'https://bigmultiplayerstatic.bigmultiplayerchess.com'
+STATIC_URL = '' if DEV else 'https://bigmultiplayerchessstatic.bigmultiplayerchess.com'
 
 app = FastAPI()
 templates = Jinja2Templates(directory=".")

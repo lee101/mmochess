@@ -79,37 +79,41 @@ var mmochess = new (function () {
         function initPlayerAt(tiles, yxPos, playerNum) {
             var y = yxPos[0];
             var x = yxPos[1];
-            tiles[y * level.width + x] = new MainTile("pawn", playerNum);
-            tiles[y * level.width + x + 1] = new MainTile("pawn", playerNum);
-            tiles[y * level.width + x + 2] = new MainTile("pawn", playerNum);
-            tiles[y * level.width + x + 3] = new MainTile("pawn", playerNum);
-            tiles[y * level.width + x + 4] = new MainTile("pawn", playerNum);
-            tiles[y * level.width + x + 5] = new MainTile("pawn", playerNum);
-            tiles[y * level.width + x + 6] = new MainTile("pawn", playerNum);
-            tiles[y * level.width + x + 7] = new MainTile("pawn", playerNum);
+            // top row faces up
+            tiles[y * level.width + x] = new MainTile("pawn", playerNum, false, 'up');
+            tiles[y * level.width + x + 1] = new MainTile("pawn", playerNum, false, 'up');
+            tiles[y * level.width + x + 2] = new MainTile("pawn", playerNum, false, 'up');
+            tiles[y * level.width + x + 3] = new MainTile("pawn", playerNum, false, 'up');
+            tiles[y * level.width + x + 4] = new MainTile("pawn", playerNum, false, 'up');
+            tiles[y * level.width + x + 5] = new MainTile("pawn", playerNum, false, 'up');
+            tiles[y * level.width + x + 6] = new MainTile("pawn", playerNum, false, 'up');
+            tiles[y * level.width + x + 7] = new MainTile("pawn", playerNum, false, 'up');
 
-            tiles[(y + 1) * level.width + x] = new MainTile("pawn", playerNum);
-            tiles[(y + 2) * level.width + x] = new MainTile("pawn", playerNum);
-            tiles[(y + 3) * level.width + x] = new MainTile("pawn", playerNum);
-            tiles[(y + 4) * level.width + x] = new MainTile("pawn", playerNum);
-            tiles[(y + 5) * level.width + x] = new MainTile("pawn", playerNum);
-            tiles[(y + 6) * level.width + x] = new MainTile("pawn", playerNum);
-            tiles[(y + 7) * level.width + x] = new MainTile("pawn", playerNum);
+            // left column faces left
+            tiles[(y + 1) * level.width + x] = new MainTile("pawn", playerNum, false, 'left');
+            tiles[(y + 2) * level.width + x] = new MainTile("pawn", playerNum, false, 'left');
+            tiles[(y + 3) * level.width + x] = new MainTile("pawn", playerNum, false, 'left');
+            tiles[(y + 4) * level.width + x] = new MainTile("pawn", playerNum, false, 'left');
+            tiles[(y + 5) * level.width + x] = new MainTile("pawn", playerNum, false, 'left');
+            tiles[(y + 6) * level.width + x] = new MainTile("pawn", playerNum, false, 'left');
+            tiles[(y + 7) * level.width + x] = new MainTile("pawn", playerNum, false, 'left');
 
-            tiles[(y + 7) * level.width + x + 1] = new MainTile("pawn", playerNum);
-            tiles[(y + 7) * level.width + x + 2] = new MainTile("pawn", playerNum);
-            tiles[(y + 7) * level.width + x + 3] = new MainTile("pawn", playerNum);
-            tiles[(y + 7) * level.width + x + 4] = new MainTile("pawn", playerNum);
-            tiles[(y + 7) * level.width + x + 5] = new MainTile("pawn", playerNum);
-            tiles[(y + 7) * level.width + x + 6] = new MainTile("pawn", playerNum);
-            tiles[(y + 7) * level.width + x + 7] = new MainTile("pawn", playerNum);
+            // bottom row faces down
+            tiles[(y + 7) * level.width + x + 1] = new MainTile("pawn", playerNum, false, 'down');
+            tiles[(y + 7) * level.width + x + 2] = new MainTile("pawn", playerNum, false, 'down');
+            tiles[(y + 7) * level.width + x + 3] = new MainTile("pawn", playerNum, false, 'down');
+            tiles[(y + 7) * level.width + x + 4] = new MainTile("pawn", playerNum, false, 'down');
+            tiles[(y + 7) * level.width + x + 5] = new MainTile("pawn", playerNum, false, 'down');
+            tiles[(y + 7) * level.width + x + 6] = new MainTile("pawn", playerNum, false, 'down');
+            tiles[(y + 7) * level.width + x + 7] = new MainTile("pawn", playerNum, false, 'down');
 
-            tiles[(y + 6) * level.width + x + 7] = new MainTile("pawn", playerNum);
-            tiles[(y + 5) * level.width + x + 7] = new MainTile("pawn", playerNum);
-            tiles[(y + 4) * level.width + x + 7] = new MainTile("pawn", playerNum);
-            tiles[(y + 3) * level.width + x + 7] = new MainTile("pawn", playerNum);
-            tiles[(y + 2) * level.width + x + 7] = new MainTile("pawn", playerNum);
-            tiles[(y + 1) * level.width + x + 7] = new MainTile("pawn", playerNum);
+            // right column faces right
+            tiles[(y + 6) * level.width + x + 7] = new MainTile("pawn", playerNum, false, 'right');
+            tiles[(y + 5) * level.width + x + 7] = new MainTile("pawn", playerNum, false, 'right');
+            tiles[(y + 4) * level.width + x + 7] = new MainTile("pawn", playerNum, false, 'right');
+            tiles[(y + 3) * level.width + x + 7] = new MainTile("pawn", playerNum, false, 'right');
+            tiles[(y + 2) * level.width + x + 7] = new MainTile("pawn", playerNum, false, 'right');
+            tiles[(y + 1) * level.width + x + 7] = new MainTile("pawn", playerNum, false, 'right');
 
             tiles[(y + 1) * level.width + x + 1] = new MainTile("castle", playerNum);
 
@@ -197,11 +201,12 @@ var mmochess = new (function () {
             };
         };
 
-        var MainTile = function (type, playerNum, halfgrown) {
+        var MainTile = function (type, playerNum, halfgrown, direction) {
             var self = new EmptyTile();
             if (typeof halfgrown == 'undefined') {
                 halfgrown = false;
             }
+            self.direction = direction || 'up';
 
             self.canPassThrough = true;
 
@@ -291,28 +296,22 @@ var mmochess = new (function () {
                     ];
                 }
                 if (self.type == "pawn") {
+                    var dirMoves = {
+                        up:    {forward: [-1, 0], left: [0, -1], right: [0, 1], diagL: [-1, -1], diagR: [-1, 1]},
+                        down:  {forward: [1, 0],  left: [0, 1],  right: [0, -1], diagL: [1, 1],   diagR: [1, -1]},
+                        left:  {forward: [0, -1], left: [1, 0],  right: [-1, 0], diagL: [1, -1],  diagR: [-1, -1]},
+                        right: {forward: [0, 1],  left: [-1, 0], right: [1, 0],  diagL: [-1, 1],  diagR: [1, 1]}
+                    };
+                    var moves = dirMoves[self.direction];
                     var normalMoves = [
-                        [self.yPos + 1, self.xPos],
-                        [self.yPos, self.xPos + 1],
-                        [self.yPos - 1, self.xPos],
-                        [self.yPos, self.xPos - 1]
+                        [self.yPos + moves.forward[0], self.xPos + moves.forward[1]],
+                        [self.yPos + moves.left[0], self.xPos + moves.left[1]],
+                        [self.yPos + moves.right[0], self.xPos + moves.right[1]]
                     ];
                     if (self.timesMoved == 0) {
-                        var blockingTile = gameState.board.getTile([self.yPos + 1, self.xPos]);
+                        var blockingTile = gameState.board.getTile(self.yPos + moves.forward[0], self.xPos + moves.forward[1]);
                         if (blockingTile && !blockingTile.playerNum) {
-                            normalMoves.push([self.yPos + 2, self.xPos]);
-                        }
-                        blockingTile = gameState.board.getTile([self.yPos, self.xPos + 1]);
-                        if (blockingTile && !blockingTile.playerNum) {
-                            normalMoves.push([self.yPos, self.xPos + 2]);
-                        }
-                        blockingTile = gameState.board.getTile([self.yPos - 1, self.xPos]);
-                        if (blockingTile && !blockingTile.playerNum) {
-                            normalMoves.push([self.yPos - 2, self.xPos]);
-                        }
-                        blockingTile = gameState.board.getTile([self.yPos, self.xPos - 1]);
-                        if (blockingTile && !blockingTile.playerNum) {
-                            normalMoves.push([self.yPos, self.xPos - 2]);
+                            normalMoves.push([self.yPos + moves.forward[0] * 2, self.xPos + moves.forward[1] * 2]);
                         }
                     }
                     for (var i = 0; i < normalMoves.length; i++) {
@@ -322,10 +321,8 @@ var mmochess = new (function () {
                             allowedMoves.push(postition);
                         }
                     }
-                    addDiag(self.yPos + 1, self.xPos + 1);
-                    addDiag(self.yPos - 1, self.xPos + 1);
-                    addDiag(self.yPos + 1, self.xPos - 1);
-                    addDiag(self.yPos - 1, self.xPos - 1);
+                    addDiag(self.yPos + moves.diagL[0], self.xPos + moves.diagL[1]);
+                    addDiag(self.yPos + moves.diagR[0], self.xPos + moves.diagR[1]);
                 }
                 if (self.type == "horse") {
                     allowedMoves = [
@@ -471,7 +468,12 @@ var mmochess = new (function () {
                     selectedClass = ' chess-piece--selected';
                 }
                 var pieceText = fixtures.pieces[self.type];
-                return '<button type="button" class="chess-piece chess-piece--player-' + self.playerNum + selectedClass + '">' + pieceText +
+                var rotateStyle = '';
+                if (self.type == 'pawn') {
+                    var rotations = {up: 0, right: 90, down: 180, left: 270};
+                    rotateStyle = ' style="transform: rotate(' + rotations[self.direction] + 'deg); transition: transform 0.3s ease"';
+                }
+                return '<button type="button" class="chess-piece chess-piece--player-' + self.playerNum + selectedClass + '"' + rotateStyle + '>' + pieceText +
                     '</button>';
             };
             return self;
@@ -505,6 +507,25 @@ var mmochess = new (function () {
             endSelf.turnEnd = function (startTile, endTile) {
                 var startPlayerNum = startTile.playerNum;
                 var endPlayerNum = endTile.playerNum;
+
+                if (startTile.type == "pawn") {
+                    var dy = endTile.yPos - startTile.yPos;
+                    var dx = endTile.xPos - startTile.xPos;
+                    var dirMoves = {
+                        up:    {forward: [-1, 0], left: [0, -1], right: [0, 1]},
+                        down:  {forward: [1, 0],  left: [0, 1],  right: [0, -1]},
+                        left:  {forward: [0, -1], left: [1, 0],  right: [-1, 0]},
+                        right: {forward: [0, 1],  left: [-1, 0], right: [1, 0]}
+                    };
+                    var rotateLeft = {up: 'left', left: 'down', down: 'right', right: 'up'};
+                    var rotateRight = {up: 'right', right: 'down', down: 'left', left: 'up'};
+                    var moves = dirMoves[startTile.direction];
+                    if (Math.sign(dy) == moves.left[0] && Math.sign(dx) == moves.left[1]) {
+                        startTile.direction = rotateLeft[startTile.direction];
+                    } else if (Math.sign(dy) == moves.right[0] && Math.sign(dx) == moves.right[1]) {
+                        startTile.direction = rotateRight[startTile.direction];
+                    }
+                }
 
                 if (endTile.type == "king") {
                     //todo kingowned popup
