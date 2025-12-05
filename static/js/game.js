@@ -33,7 +33,15 @@ var mmochess = new (function () {
             gameState.destruct = function () {
                 gameon.cleanBoards();
 //                gameon.pauseSound("theme");
+                // Terminate the AI worker when game is destroyed
+                if (gameState.aiWorker) {
+                    gameState.aiWorker.terminate();
+                    gameState.aiWorker = null;
+                }
             };
+
+            // Initialize AI background worker
+            gameState.aiWorker = new Worker('/static/js/ai-worker.js');
 
             gameState.aiHandler = new gameState.AIHandler();
 
@@ -186,7 +194,6 @@ var mmochess = new (function () {
 //                        gameon.unmuteSound('moving');
 //                        gameon.playSound('moving');
 
-                        //TODO start ai search ASAP
                         gameState.board.animateTileAlongPath(gameState.currentSelected, path, animationTime, function () {
                             gameState.endHandler.turnEnd(gameState.currentSelected, self);
 //                            gameon.muteSound('moving');
@@ -548,6 +555,11 @@ var mmochess = new (function () {
 
                 gameState.board.swapTiles(startTile, endTile);
 
+                // Start AI precomputation after board state changes for faster AI turns
+                if (level.num_human_players < level.num_players) {
+                    gameState.aiHandler.startPrecomputation();
+                }
+
                 endSelf.nextTurn();
 
                 gameState.board.render();
@@ -597,6 +609,13 @@ var mmochess = new (function () {
 
         gameState.AIHandler = function () {
             var AISelf = {};
+
+            // Precomputed move cache for faster AI response
+            AISelf.precomputedMove = null;
+            AISelf.precomputedForPlayer = null;
+            AISelf.isComputing = false;
+            AISelf.pendingCallback = null;
+
             //hatred based on distance/total scores todo recalculate
             // full hate = numplayers-1, no hate = 0
             AISelf.hatredMatrix = {
@@ -816,25 +835,144 @@ var mmochess = new (function () {
             };
 
 
-            AISelf.makeAiMove = function () {
+            /**
+             * Serialize current board state for worker
+             */
+            AISelf.serializeBoardState = function() {
+                return gameState.board.tiles.map(function(tile) {
+                    return {
+                        playerNum: tile.playerNum || null,
+                        type: tile.type || null,
+                        direction: tile.direction || 'up',
+                        timesMoved: tile.timesMoved || 0
+                    };
+                });
+            };
 
-                var maxScoreMove = AISelf.findMaxScoreMove();
-
-                if (!maxScoreMove[0]) {
-                    //no moves! TODO destroy player which can't move?
-                    //todo if all turns dont work then gameover
+            /**
+             * Execute the move once we have it
+             */
+            AISelf.executeMove = function(move) {
+                if (!move) {
+                    // No moves available
                     gameState.endHandler.nextTurn();
-//                    gameState.endHandler.gameOver();
                     return;
                 }
 
-                //update view
-                maxScoreMove[0].click();
+                // Get the actual tile objects from the returned coordinates
+                var startTile = gameState.board.getTile(move.startY, move.startX);
+                var endTile = gameState.board.getTile(move.endY, move.endX);
+
+                if (!startTile || !endTile) {
+                    gameState.endHandler.nextTurn();
+                    return;
+                }
+
+                // Update view - simulate player clicking
+                startTile.click();
                 setTimeout(function () {
-                    //move there
-                    maxScoreMove[1].click();
-                    //gameState.unselectAll();
+                    endTile.click();
                 }, 600);
+            };
+
+            /**
+             * Start precomputing move for the next AI player
+             * This runs after board state changes so AI moves are ready faster
+             */
+            AISelf.startPrecomputation = function() {
+                // Clear old precomputed move (board state changed)
+                AISelf.precomputedMove = null;
+                AISelf.precomputedForPlayer = null;
+
+                // Find the next AI player
+                var nextPlayer = (gameState.players_turn % level.num_players) + 1;
+                if (nextPlayer <= level.num_human_players) {
+                    // Next player is human, no precomputation needed
+                    return;
+                }
+
+                // Already computing something
+                if (AISelf.isComputing) {
+                    return;
+                }
+
+                AISelf.isComputing = true;
+                AISelf.precomputedForPlayer = nextPlayer;
+
+                var serializedTiles = AISelf.serializeBoardState();
+
+                // Set up message handler for precomputation
+                gameState.aiWorker.onmessage = function(e) {
+                    var data = e.data;
+                    if (data.type === 'moveResult') {
+                        AISelf.isComputing = false;
+                        AISelf.precomputedMove = data.move;
+
+                        // If there's a pending callback, call it
+                        if (AISelf.pendingCallback) {
+                            var cb = AISelf.pendingCallback;
+                            AISelf.pendingCallback = null;
+                            cb(data.move);
+                        }
+                    }
+                };
+
+                gameState.aiWorker.postMessage({
+                    type: 'calculateMove',
+                    level: {
+                        width: level.width,
+                        height: level.height,
+                        num_players: level.num_players
+                    },
+                    playersTurn: nextPlayer,
+                    tiles: serializedTiles
+                });
+            };
+
+            AISelf.makeAiMove = function () {
+                // Check if we have a precomputed move for current player
+                if (AISelf.precomputedMove && AISelf.precomputedForPlayer === gameState.players_turn) {
+                    var move = AISelf.precomputedMove;
+                    AISelf.precomputedMove = null;
+                    AISelf.precomputedForPlayer = null;
+                    AISelf.executeMove(move);
+                    return;
+                }
+
+                // If computation is in progress for this player, wait for it
+                if (AISelf.isComputing && AISelf.precomputedForPlayer === gameState.players_turn) {
+                    AISelf.pendingCallback = function(move) {
+                        AISelf.precomputedMove = null;
+                        AISelf.precomputedForPlayer = null;
+                        AISelf.executeMove(move);
+                    };
+                    return;
+                }
+
+                // No precomputed move, calculate now
+                AISelf.isComputing = true;
+                var serializedTiles = AISelf.serializeBoardState();
+
+                // Set up message handler for worker response
+                gameState.aiWorker.onmessage = function(e) {
+                    var data = e.data;
+                    if (data.type === 'moveResult') {
+                        AISelf.isComputing = false;
+                        AISelf.executeMove(data.move);
+                    }
+                };
+
+                // Send calculation request to worker
+                gameState.aiWorker.postMessage({
+                    type: 'calculateMove',
+                    level: {
+                        width: level.width,
+                        height: level.height,
+                        num_players: level.num_players
+                    },
+                    playersTurn: gameState.players_turn,
+                    tiles: serializedTiles
+                });
             };
 
 
