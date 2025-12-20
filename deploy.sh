@@ -22,11 +22,12 @@ aws s3 sync ./manifest s3://bigmultiplayerchessstatic/manifest $SYNC_OPTS
 echo -e "${GREEN}✅ Static files synced to R2${NC}"
 
 echo -e "\n${YELLOW}Step 2: Clearing Cloudflare cache${NC}"
-if [[ -f "../netwrck/clear_caches.py" && -n "$CLOUDFLARE_API_KEY" ]]; then
-    python3 ../netwrck/clear_caches.py
-    echo -e "${GREEN}✅ Cache cleared${NC}"
+source ~/.secretbashrc 2>/dev/null || true
+if [[ -n "$CLOUDFLARE_API" || -n "$CLOUDFLARE_API_KEY" ]]; then
+    python3 clear_cache.py
+    echo -e "${GREEN}Cache cleared${NC}"
 else
-    echo -e "${YELLOW}⚠️  Skipping cache clear${NC}"
+    echo -e "${YELLOW}Skipping cache clear (missing credentials)${NC}"
 fi
 
 echo -e "\n${GREEN}Deployment complete!${NC}"
