@@ -25,7 +25,12 @@ var mmochess = new (function () {
 //            gameon.loopSound("theme");
 
             gameState.players_turn = 1;
-            var tiles = gameState.initialBoardTiles();
+            var tiles;
+            if (level.mode === 'classic1v1') {
+                tiles = gameState.initClassic1v1Board();
+            } else {
+                tiles = gameState.initialBoardTiles();
+            }
             gameState.board = new gameon.Board(level.width, level.height, tiles);
 
             var $html = $(evutils.render('game.jinja2'));
@@ -149,6 +154,49 @@ var mmochess = new (function () {
             tiles[(y + 3) * level.width + x + 3] = new MainTile("queen", playerNum);
             tiles[(y + 4) * level.width + x + 4] = new MainTile("king", playerNum);
         }
+
+        // Classic chess layout for 1v1 mode (standard chess + corner pawns on bigger board)
+        function initClassicPlayer(tiles, row, playerNum, direction) {
+            var pawnRow = (direction === 'up') ? row + 1 : row - 1;
+            var cornerPawnRow = row;
+            var startX = 4; // Center the 8-piece lineup on a 16-wide board
+
+            // Back row pieces: Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook
+            tiles[row * level.width + startX + 0] = new MainTile("castle", playerNum, false, direction);
+            tiles[row * level.width + startX + 1] = new MainTile("horse", playerNum, false, direction);
+            tiles[row * level.width + startX + 2] = new MainTile("bishop", playerNum, false, direction);
+            tiles[row * level.width + startX + 3] = new MainTile("queen", playerNum, false, direction);
+            tiles[row * level.width + startX + 4] = new MainTile("king", playerNum, false, direction);
+            tiles[row * level.width + startX + 5] = new MainTile("bishop", playerNum, false, direction);
+            tiles[row * level.width + startX + 6] = new MainTile("horse", playerNum, false, direction);
+            tiles[row * level.width + startX + 7] = new MainTile("castle", playerNum, false, direction);
+
+            // Standard 8 pawns in front
+            for (var i = 0; i < 8; i++) {
+                tiles[pawnRow * level.width + startX + i] = new MainTile("pawn", playerNum, false, direction);
+            }
+
+            // Corner pawns flanking the rooks (2 on each side = 4 total extra pawns)
+            // Left corner pawns
+            tiles[cornerPawnRow * level.width + startX - 1] = new MainTile("pawn", playerNum, false, direction);
+            tiles[cornerPawnRow * level.width + startX - 2] = new MainTile("pawn", playerNum, false, direction);
+            // Right corner pawns
+            tiles[cornerPawnRow * level.width + startX + 8] = new MainTile("pawn", playerNum, false, direction);
+            tiles[cornerPawnRow * level.width + startX + 9] = new MainTile("pawn", playerNum, false, direction);
+        }
+
+        // Initialize board for classic 1v1 mode
+        gameState.initClassic1v1Board = function () {
+            var tiles = [];
+            for (var i = 0; i < level.width * level.height; i++) {
+                tiles.push(new EmptyTile());
+            }
+            // Player 1 (white) at bottom - row 12, facing up
+            initClassicPlayer(tiles, 12, 1, 'up');
+            // Player 2 (black) at top - row 1, facing down
+            initClassicPlayer(tiles, 1, 2, 'down');
+            return tiles;
+        };
 
         gameState.currentSelected = null;
         gameState.unselectAll = function () {

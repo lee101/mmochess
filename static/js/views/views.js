@@ -38,6 +38,52 @@
     var onePlayerLevel = LevelView(1);
     APP.Views['/play'] = onePlayerLevel;
 
+    // Classic 1v1 mode - standard chess layout on bigger board with flanking pawns
+    APP.Views['/classic1v1'] = Backbone.View.extend({
+        initialize: function (options) {
+        },
+
+        render: function () {
+            var self = this;
+
+            var level = {
+                "height": 14,
+                "width": 16,
+                "num_players": 2,
+                "num_human_players": 2,
+                "mode": "classic1v1"
+            };
+
+            APP.game = new mmochess.Game(level);
+            APP.game.render(self.$el);
+
+            return self;
+        }
+    });
+
+    // Classic 1v1 vs AI mode
+    APP.Views['/classic1v1/ai'] = Backbone.View.extend({
+        initialize: function (options) {
+        },
+
+        render: function () {
+            var self = this;
+
+            var level = {
+                "height": 14,
+                "width": 16,
+                "num_players": 2,
+                "num_human_players": 1,
+                "mode": "classic1v1"
+            };
+
+            APP.game = new mmochess.Game(level);
+            APP.game.render(self.$el);
+
+            return self;
+        }
+    });
+
 
     APP.Views['/done-level'] = Backbone.View.extend({
         initialize: function (options) {

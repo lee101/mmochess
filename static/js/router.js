@@ -137,6 +137,8 @@
     jQuery.extend(routes, {
         //pages needing js rendering
         'play': 'play',
+        'classic1v1': 'classic1v1',
+        'classic1v1/ai': 'classic1v1ai',
         'versus/1player': 'versus1player',
         'versus/2player': 'versus2player',
         'versus/3player': 'versus3player',
@@ -152,6 +154,8 @@
         'play': defaultHandler('/play'),
         'timed': defaultHandler('/timed'),
         'classic': defaultHandler('/classic'),
+        'classic1v1': defaultHandler('/classic1v1'),
+        'classic1v1ai': defaultHandler('/classic1v1/ai'),
         'versus': defaultHandler('/versus'),
         'versus1player': defaultHandler('/versus/1player'),
         'versus2player': defaultHandler('/versus/2player'),
