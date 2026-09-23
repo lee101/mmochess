@@ -892,6 +892,9 @@ var mmochess = new (function () {
         gameState.render = function (target) {
             gameState.$target = $(target);
             gameState.$target.html(gameState.$html);
+            if (window.BoardZoom) {
+                BoardZoom.attach(gameState.$html.find('.gameon-board'));
+            }
         };
 
         construct();

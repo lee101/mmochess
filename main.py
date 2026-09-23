@@ -14,6 +14,7 @@ import fixtures
 from gameon import gameon_router
 from ws import ws
 from database import init_db
+from static_version import STATIC_V
 
 class GameOnUtils:
     class MyEncoder:
@@ -23,7 +24,7 @@ FACEBOOK_APP_ID = "138831849632195"
 FACEBOOK_APP_SECRET = "93986c9cdd240540f70efaea56a9e3f2"
 
 DEV = os.environ.get('DEV', 'true').lower() == 'true'
-STATIC_URL = ''
+STATIC_URL = '' if DEV else 'https://bigmultiplayerchessstatic.bigmultiplayerchess.com'
 
 app = FastAPI()
 templates = Jinja2Templates(directory=".")
@@ -51,6 +52,7 @@ def get_template_values(request: Request, **kwargs):
         'path': request.url.path,
         'urlencode': urllib.parse.quote_plus,
         'static_url': STATIC_URL,
+        'static_v': STATIC_V,
         'dev': DEV,
         **kwargs
     }
