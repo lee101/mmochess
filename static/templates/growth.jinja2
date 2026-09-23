@@ -1,0 +1,104 @@
+{% set site_url = 'https://' ~ request.url.netloc %}
+{% macro head() -%}
+    <link rel="canonical" href="{{ site_url }}{{ path if path != '/' else '/' }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{{ site_url }}/static/img/og-bigmultiplayerchess.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@graph":[
+      {"@type":"WebSite","name":"Big Multiplayer Chess","url":"{{ site_url }}/"},
+      {"@type":["VideoGame","WebApplication"],"name":"Big Multiplayer Chess","url":"{{ site_url }}/",
+       "description":"Free multiplayer chess in your browser: up to 6 armies on one giant board, plus classic 1v1 chess on a bigger board.",
+       "image":"{{ site_url }}/static/img/og-bigmultiplayerchess.png","genre":["Chess","Strategy","Board game"],
+       "gamePlatform":"Web browser","applicationCategory":"GameApplication","operatingSystem":"Any",
+       "playMode":["SinglePlayer","MultiPlayer"],"inLanguage":"en",
+       "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+       "publisher":{"@type":"Organization","name":"V5 Games","url":"https://v5games.com"}}
+    ]}
+    </script>
+    <style>
+        .btn.btn-success{background-color:#2d7a2d;border-color:#276b27}
+        .btn.btn-success:hover,.btn.btn-success:focus,.btn.btn-success:active{background-color:#236023;border-color:#1d521d}
+        #footerbody a{color:#1f5a8f}
+        #footerbody .footer__link,#footerbody a[title="Addicting Word Games"]{color:#555}
+        .ws-header .big-multiplayer-chess-logo{color:#a8530a!important}
+        .google-anno-t{color:#1f5a8f!important}
+        .vb-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+        .vb-wrap{max-width:720px;margin:0 auto;padding:0 16px;text-align:center;color:#333}
+        .vb-intro[hidden]{display:none}
+        .vb-intro h1{font-size:28px;margin:18px 0 6px;font-weight:700;color:#3b3f8f}
+        .vb-lead{font-size:17px;margin:0 0 12px}
+        .vb-howto{display:inline-block;text-align:left;margin:0 0 8px;padding-left:22px;font-size:15px;line-height:1.5}
+        .vb-share{margin:18px 0 8px}
+        .vb-share p{margin:0 0 8px;font-weight:600}
+        .vb-btn{display:inline-block;min-height:44px;padding:10px 20px;margin:4px;border-radius:22px;border:2px solid #3b3f8f;background:#3b3f8f;color:#fff;font-size:16px;font-weight:600;cursor:pointer}
+        .vb-btn--ghost{background:#fff;color:#3b3f8f}
+        .vb-toast{display:block;min-height:20px;font-size:14px;color:#1d521d}
+        .vb-more h2{font-size:20px;margin:18px 0 10px}
+        .vb-games{list-style:none;padding:0;margin:0 0 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+        .vb-games a{display:block;height:100%;padding:12px 14px;border-radius:10px;background:#fff;border:1px solid #ddd;color:#1f5a8f;font-weight:700;text-align:left;text-decoration:none}
+        .vb-games a:hover{border-color:#1f5a8f}
+        .vb-games span{display:block;font-weight:400;font-size:14px;color:#444;margin-top:2px}
+    </style>
+{%- endmacro %}
+
+{% macro body() -%}
+<div class="vb-wrap">
+    {% if path == '/' %}
+    <section class="vb-intro" id="vb-intro">
+        <h1>Big Multiplayer Chess</h1>
+        <p class="vb-lead">Free chess for up to 6 players on one giant board. Tap <b>1v1 Chess</b> or <b>Play Now!</b> to start instantly.</p>
+        <ol class="vb-howto">
+            <li><b>1v1 Chess</b>: classic armies on a bigger 16x14 board with extra flanking pawns.</li>
+            <li><b>Play Now!</b>: you against 5 computer armies. <b>VS</b>: 2 to 6 people share one screen.</li>
+            <li>Pawns move and capture in four directions. Take a king to capture all of that player's pieces.</li>
+        </ol>
+    </section>
+    {% else %}
+    <h1 class="vb-sr">Big Multiplayer Chess</h1>
+    {% endif %}
+    <section class="vb-share" aria-label="Invite a friend">
+        <p>Chess is better with friends. Send someone a game link.</p>
+        <button type="button" class="vb-btn" data-share data-share-url="/classic1v1" data-share-text="Play 1v1 chess with me on a giant board at Big Multiplayer Chess (free, no download):">Invite a friend</button>
+        <button type="button" class="vb-btn vb-btn--ghost" data-copy data-share-url="/classic1v1">Copy game link</button>
+        <span class="vb-toast" role="status" aria-live="polite"></span>
+    </section>
+    <section class="vb-more">
+        <h2>More free games</h2>
+        <ul class="vb-games">
+            <li><a href="https://wordsmashing.com/?ref=bigmultiplayerchess">Word Smashing<span>Word puzzle: smash letters into words</span></a></li>
+            <li><a href="https://addictingwordgames.com/?ref=bigmultiplayerchess">Addicting Word Games<span>More word puzzle games</span></a></li>
+            <li><a href="https://rewordgame.com/?ref=bigmultiplayerchess">reWord Game<span>Swap words until the sentence makes sense</span></a></li>
+            <li><a href="https://multiplicationmaster.com/?ref=bigmultiplayerchess">Multiplication Master<span>Times-tables maths game</span></a></li>
+            <li><a href="https://v5games.com/?ref=bigmultiplayerchess">V5 Games<span>AI text adventure games</span></a></li>
+        </ul>
+    </section>
+</div>
+<script>
+(function () {
+    var d = document;
+    function link(el) { var u = el.getAttribute('data-share-url') || '/'; return u.charAt(0) === '/' ? location.origin + u : u; }
+    function say(el, m) {
+        var t = el.parentNode.querySelector('.vb-toast');
+        if (t) { t.textContent = m; setTimeout(function () { t.textContent = ''; }, 2500); }
+    }
+    function copy(el) {
+        var u = link(el);
+        var p = navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText(u) : Promise.reject();
+        p.then(function () { say(el, 'Link copied!'); }, function () { window.prompt('Copy this link', u); });
+    }
+    d.addEventListener('click', function (e) {
+        var el = e.target.closest && e.target.closest('[data-share],[data-copy]');
+        if (!el) return;
+        e.preventDefault();
+        if (el.hasAttribute('data-copy') || !navigator.share) return copy(el);
+        navigator.share({title: 'Big Multiplayer Chess', text: el.getAttribute('data-share-text') || '', url: link(el)}).catch(function () {});
+    });
+    var intro = d.getElementById('vb-intro'), main = d.getElementById('mainbody');
+    if (intro && main && window.MutationObserver) {
+        new MutationObserver(function () { intro.hidden = location.pathname !== '/'; }).observe(main, {childList: true});
+    }
+})();
+</script>
+{%- endmacro %}

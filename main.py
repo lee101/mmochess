@@ -23,7 +23,7 @@ FACEBOOK_APP_ID = "138831849632195"
 FACEBOOK_APP_SECRET = "93986c9cdd240540f70efaea56a9e3f2"
 
 DEV = os.environ.get('DEV', 'true').lower() == 'true'
-STATIC_URL = '' if DEV else 'https://bigmultiplayerchessstatic.bigmultiplayerchess.com'
+STATIC_URL = ''
 
 app = FastAPI()
 templates = Jinja2Templates(directory=".")
@@ -114,10 +114,17 @@ async def play(request: Request, noads: bool = True):
     return templates.TemplateResponse('templates/campaign.jinja2', get_template_values(request, noads=noads))
 
 @app.get('/sitemap')
+@app.get('/sitemap.xml')
 async def sitemap(request: Request):
     from fastapi.responses import Response
     content = templates.get_template('templates/sitemap.xml').render(get_template_values(request))
     return Response(content=content, media_type='text/xml')
+
+
+@app.get('/robots.txt')
+async def robots_txt(request: Request):
+    from fastapi.responses import Response
+    return Response(content=f'User-agent: *\nDisallow:\nSitemap: https://{request.url.netloc}/sitemap.xml\n', media_type='text/plain')
 
 
 if __name__ == '__main__':

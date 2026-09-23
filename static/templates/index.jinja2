@@ -2,8 +2,8 @@
 
 {% block headers %}
 
-    {% set title = 'Big Multiplayer Chess - Massive Chess Game!' -%}
-    {% set description = 'Crazy Big Multiplayer Chess! 6+ Player Massive Multiplayer Chess Board!' -%}
+    {% set title = 'Big Multiplayer Chess - Free 6 Player Chess Game Online' -%}
+    {% set description = 'Free multiplayer chess in your browser: up to 6 armies on one giant board, plus classic 1v1 on a bigger board. No download needed.' -%}
 
     <meta charset="utf-8">
     <title>{{ title }}</title>
@@ -12,8 +12,8 @@
 
     <meta name="keywords" content="puzzle games, chess, online chess, free online puzzle games, multiplayer chess game">
     <meta property="og:title" content="{{ title }}">
-    <meta property="og:url" content="http://bigmultiplayerchess.com">
-    <meta property="og:image" content="http://bigmultiplayerchess.com/static/img/big-multiplayer-chess-logo512.png">
+    <meta property="og:url" content="https://{{ request.url.netloc }}{{ path }}">
+    <meta property="og:image" content="https://{{ request.url.netloc }}/static/img/og-bigmultiplayerchess.png">
     <meta property="og:description"
           content="{{ description }}">
     <meta property="og:type" content="game">

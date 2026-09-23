@@ -1,31 +1,41 @@
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{% set site_url = "https://" ~ request.url.netloc %}<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
-		<loc>{{ host_url }}</loc>
+		<loc>{{ site_url }}</loc>
 		<changefreq>weekly</changefreq>
 		<priority>1</priority>
 	</url>
 	<url>
-		<loc>{{ host_url }}/play</loc>
+		<loc>{{ site_url }}/play</loc>
 		<changefreq>weekly</changefreq>
 		<priority>1</priority>
 	</url>
 	<url>
-		<loc>{{ host_url }}/about</loc>
+		<loc>{{ site_url }}/classic1v1</loc>
+		<changefreq>weekly</changefreq>
+		<priority>1</priority>
+	</url>
+	<url>
+		<loc>{{ site_url }}/versus</loc>
+		<changefreq>weekly</changefreq>
+		<priority>0.8</priority>
+	</url>
+	<url>
+		<loc>{{ site_url }}/about</loc>
 		<changefreq>weekly</changefreq>
 		<priority>0.1</priority>
 	</url>
 	<url>
-		<loc>{{ host_url }}/terms</loc>
+		<loc>{{ site_url }}/terms</loc>
 		<changefreq>weekly</changefreq>
 		<priority>0</priority>
 	</url>
 	<url>
-		<loc>{{ host_url }}/privacy</loc>
+		<loc>{{ site_url }}/privacy</loc>
 		<changefreq>weekly</changefreq>
 		<priority>0</priority>
 	</url>
 	<url>
-		<loc>{{ host_url }}/contact</loc>
+		<loc>{{ site_url }}/contact</loc>
 		<changefreq>weekly</changefreq>
 		<priority>0</priority>
 	</url>
