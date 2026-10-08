@@ -4,6 +4,13 @@ gameon.loadSound('win', '/gameon/static/music/winning-level.mp3');
 gameon.loadSound('moved', '/static/music/moved-letter.m4a');
 gameon.loadSound('moving', '/static/music/moving-letter.m4a');
 
+function thGame(e, level, extra) {
+    var p = {game: 'bigmultiplayerchess', level: level.mode || ('versus-' + level.num_human_players + 'p'),
+        players: level.num_players, humans: level.num_human_players};
+    for (var k in extra) p[k] = extra[k];
+    try { window.th && window.th('track', e, p); } catch (x) {}
+}
+
 var mmochess = new (function () {
     "use strict";
     var self = {};
@@ -21,6 +28,7 @@ var mmochess = new (function () {
         var gameState = {};
 
         function construct() {
+            thGame('game_started', level);
             gameon.pauseAll();
 //            gameon.loopSound("theme");
 
@@ -583,11 +591,24 @@ var mmochess = new (function () {
                     evutils.setModal('<h2>' + message + '</h2>');
                     evutils.showAds();
 
+                    var alive = {}, numAlive = 0;
                     for (var i = 0; i < gameState.board.tiles.length; i++) {
                         var tile = gameState.board.tiles[i];
                         if (tile.playerNum == endPlayerNum) {
                             tile.playerNum = startPlayerNum;
                         }
+                        if (tile.playerNum && !alive[tile.playerNum]) {
+                            alive[tile.playerNum] = true;
+                            numAlive++;
+                        }
+                    }
+                    var humanAlive = false;
+                    for (var h = 1; h <= level.num_human_players; h++) {
+                        if (alive[h]) humanAlive = true;
+                    }
+                    if ((numAlive == 1 || !humanAlive) && !gameState.thDone) {
+                        gameState.thDone = true;
+                        thGame('game_completed', level, {winner: conqueror, won: numAlive == 1 && startPlayerNum <= level.num_human_players});
                     }
                 }
                 //figure out if endtile should be removed(ifpiece is taken)
