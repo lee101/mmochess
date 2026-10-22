@@ -39,4 +39,28 @@
 		<changefreq>weekly</changefreq>
 		<priority>0</priority>
 	</url>
+	<url>
+		<loc>{{ site_url }}/blog</loc>
+		<lastmod>2026-10-22</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.6</priority>
+	</url>
+	<url>
+		<loc>{{ site_url }}/blog/chess-variants-to-try</loc>
+		<lastmod>2026-10-22</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.6</priority>
+	</url>
+	<url>
+		<loc>{{ site_url }}/blog/how-big-multiplayer-chess-works</loc>
+		<lastmod>2026-10-22</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.6</priority>
+	</url>
+	<url>
+		<loc>{{ site_url }}/blog/chess-tips-large-boards-and-team-play</loc>
+		<lastmod>2026-10-22</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.6</priority>
+	</url>
 </urlset>

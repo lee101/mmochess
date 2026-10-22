@@ -38,6 +38,8 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/transient", StaticFiles(directory="transient"), name="transient")
 
 app.include_router(gameon_router)
+from blog import router as blog_router
+app.include_router(blog_router)
 
 def get_template_values(request: Request, **kwargs):
     return {
