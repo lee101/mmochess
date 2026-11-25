@@ -37,3 +37,4 @@ node_modules
 .venv314/
 mmochess.db
 gameon.db
+.venv/
